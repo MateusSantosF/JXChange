@@ -89,7 +89,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="/home/mateus/Documents/Projetos/JAcoesPOO/JAcoes/resources/icon-dash.png"/>
+                  <Image iconType="3" name="/icon-dash.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Dashboard"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -110,7 +110,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="/home/mateus/Documents/Projetos/JAcoesPOO/JAcoes/resources/icon-tools.png"/>
+                  <Image iconType="3" name="/icon-tools.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Tools"/>
                 <Property name="iconTextGap" type="int" value="6"/>
@@ -128,7 +128,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="/home/mateus/Documents/Projetos/JAcoesPOO/JAcoes/resources/icon-config.png"/>
+                  <Image iconType="3" name="/icon-config.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Settings"/>
                 <Property name="iconTextGap" type="int" value="6"/>
@@ -146,7 +146,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="/home/mateus/Documents/Projetos/JAcoesPOO/JAcoes/resources/icon-ajuda.png"/>
+                  <Image iconType="3" name="/icon-ajuda.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Help"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -171,7 +171,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="/home/mateus/Documents/Projetos/JAcoesPOO/JAcoes/resources/icon-addcsv.png"/>
+                  <Image iconType="3" name="/icon-addcsv.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="New Exchange"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -187,7 +187,7 @@
         <Component class="javax.swing.JLabel" name="jLabelLogo">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="/home/mateus/Documents/Projetos/JAcoesPOO/JAcoes/resources/logotipo.png"/>
+              <Image iconType="3" name="/logotipo.png"/>
             </Property>
           </Properties>
         </Component>

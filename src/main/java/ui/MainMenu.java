@@ -66,7 +66,7 @@ public class MainMenu extends javax.swing.JFrame {
 
         jLabelDashboard.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabelDashboard.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelDashboard.setIcon(new javax.swing.ImageIcon("/home/mateus/Documents/Projetos/JAcoesPOO/JAcoes/resources/icon-dash.png")); // NOI18N
+        jLabelDashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon-dash.png"))); // NOI18N
         jLabelDashboard.setText("Dashboard");
         jLabelDashboard.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabelDashboard.setIconTextGap(6);
@@ -79,7 +79,7 @@ public class MainMenu extends javax.swing.JFrame {
 
         jLabelTools.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabelTools.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelTools.setIcon(new javax.swing.ImageIcon("/home/mateus/Documents/Projetos/JAcoesPOO/JAcoes/resources/icon-tools.png")); // NOI18N
+        jLabelTools.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon-tools.png"))); // NOI18N
         jLabelTools.setText("Tools");
         jLabelTools.setIconTextGap(6);
         jLabelTools.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -91,7 +91,7 @@ public class MainMenu extends javax.swing.JFrame {
 
         jLabelSettings.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabelSettings.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelSettings.setIcon(new javax.swing.ImageIcon("/home/mateus/Documents/Projetos/JAcoesPOO/JAcoes/resources/icon-config.png")); // NOI18N
+        jLabelSettings.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon-config.png"))); // NOI18N
         jLabelSettings.setText("Settings");
         jLabelSettings.setIconTextGap(6);
         jLabelSettings.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -103,7 +103,7 @@ public class MainMenu extends javax.swing.JFrame {
 
         jLabelHelp.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabelHelp.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelHelp.setIcon(new javax.swing.ImageIcon("/home/mateus/Documents/Projetos/JAcoesPOO/JAcoes/resources/icon-ajuda.png")); // NOI18N
+        jLabelHelp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon-ajuda.png"))); // NOI18N
         jLabelHelp.setText("Help");
         jLabelHelp.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabelHelp.setIconTextGap(6);
@@ -118,7 +118,7 @@ public class MainMenu extends javax.swing.JFrame {
 
         jLabelAddcsv.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabelAddcsv.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelAddcsv.setIcon(new javax.swing.ImageIcon("/home/mateus/Documents/Projetos/JAcoesPOO/JAcoes/resources/icon-addcsv.png")); // NOI18N
+        jLabelAddcsv.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon-addcsv.png"))); // NOI18N
         jLabelAddcsv.setText("New Exchange");
         jLabelAddcsv.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabelAddcsv.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -128,7 +128,7 @@ public class MainMenu extends javax.swing.JFrame {
         });
         jPanelBotoes.add(jLabelAddcsv);
 
-        jLabelLogo.setIcon(new javax.swing.ImageIcon("/home/mateus/Documents/Projetos/JAcoesPOO/JAcoes/resources/logotipo.png")); // NOI18N
+        jLabelLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logotipo.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanelMenuLateralLayout = new javax.swing.GroupLayout(jPanelMenuLateral);
         jPanelMenuLateral.setLayout(jPanelMenuLateralLayout);
