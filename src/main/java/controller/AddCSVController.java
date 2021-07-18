@@ -5,6 +5,10 @@
  */
 package controller;
 
+import javax.swing.JOptionPane;
+import model.CSV;
+import ui.MainMenu;
+
 /**
  *
  * @author mateus
@@ -16,8 +20,15 @@ public class AddCSVController {
         
         if(nome.length() > 0 && diretorio.length() > 0){
             
-            //aqui criaria o objeto CSV 
-            
+           CSV currentCSV = new CSV();
+            try {
+                currentCSV.setDiretorio(diretorio);
+                currentCSV.setNomeAcao(nome);
+                MainMenu.listaCSV.add(currentCSV);                     
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Erro ao ler arquivo."+ e);
+            }
+       
         }else{
             return false;
         }

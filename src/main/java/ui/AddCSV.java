@@ -7,17 +7,29 @@ package ui;
 
 import controller.AddCSVController;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import model.CSV;
+import model.Observado;
+import model.Observador;
 
 /**
  *
  * @author mateus
  */
-public class AddCSV extends javax.swing.JFrame {
+public class AddCSV extends javax.swing.JFrame implements Observado {
 
     /**
      * Creates new form AddCSV
      */
+    ArrayList<Observador> observadores = new ArrayList<>();
+    
     public AddCSV() {
         initComponents();
     }
@@ -59,7 +71,7 @@ public class AddCSV extends javax.swing.JFrame {
         jTextFieldPath.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jTextFieldPath.setForeground(new java.awt.Color(204, 204, 204));
 
-        btnBuscarDiretorio.setIcon(new javax.swing.ImageIcon("/home/mateus/Documents/Projetos/JAcoesPOO/JAcoes/resources/icon-addFolder.png")); // NOI18N
+        btnBuscarDiretorio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon-addFolder.png"))); // NOI18N
         btnBuscarDiretorio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnBuscarDiretorio.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -143,8 +155,7 @@ public class AddCSV extends javax.swing.JFrame {
         int returnVal = fileChooser.showOpenDialog(this);
         
         if(returnVal == fileChooser.APPROVE_OPTION){
-            File csv = fileChooser.getSelectedFile();
-            
+            File csv = fileChooser.getSelectedFile();  
             jTextFieldPath.setText(csv.getAbsolutePath());
         }
         
@@ -152,20 +163,9 @@ public class AddCSV extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarDiretorioMousePressed
 
     private void jLabel4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MousePressed
-        
-        boolean sucesso;
-        
-        AddCSVController csvc = new AddCSVController();
-        
-        sucesso = csvc.salvaCSV(jTextFieldNomeAcao.getText(), jTextFieldPath.getText());
-        
-        if(sucesso){
-            JOptionPane.showMessageDialog(null, "Ação salva com sucesso.");
-            limpaCampos();
-        }else{
-            JOptionPane.showMessageDialog(null, "Verifique os campos e tente novamente.");
-        }
-        
+       
+            notificarObservadores();
+            this.dispose();
         
     }//GEN-LAST:event_jLabel4MousePressed
 
@@ -214,4 +214,34 @@ public class AddCSV extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldNomeAcao;
     private javax.swing.JTextField jTextFieldPath;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void registrarObservador(Observador observador) {
+        observadores.add(observador);
+
+    }
+
+    @Override
+    public void removeObservador(Observador observador) {
+          observadores.remove(observador);
+    }
+
+    @Override
+    public void notificarObservadores() {
+         
+        boolean sucesso;
+        
+        AddCSVController csvc = new AddCSVController();
+        
+        sucesso = csvc.salvaCSV(jTextFieldNomeAcao.getText(), jTextFieldPath.getText());
+        
+        if(sucesso){
+            JOptionPane.showMessageDialog(null, "Ação salva com sucesso.");
+  
+            limpaCampos();
+        }else{
+            JOptionPane.showMessageDialog(null, "Verifique os campos e tente novamente.");
+        }
+        observadores.forEach((Observador ob)->{ob.update(sucesso);});
+    }
 }
