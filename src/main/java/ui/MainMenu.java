@@ -8,9 +8,11 @@ package ui;
 import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.util.ArrayList;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SingleSelectionModel;
+import javax.swing.SwingConstants;
 import model.AplicaLookAndFeel;
 import model.CSV;
 import model.Ferramentas;
@@ -41,6 +43,12 @@ public class MainMenu extends javax.swing.JFrame implements Observador {
         this.setExtendedState(MAXIMIZED_BOTH);
 
         new AplicaLookAndFeel();
+        
+        JLabel label = new JLabel();
+        label.setText("Adicione uma ação antes");
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        painelPrincipal.add(label);
+        
 
     }
 

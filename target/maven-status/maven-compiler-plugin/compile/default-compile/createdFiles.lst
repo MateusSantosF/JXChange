@@ -13,7 +13,6 @@ model\CSV.class
 ui\AddCSV$1.class
 ui\MainMenu$4.class
 ui\MainMenu.class
-model\Candle.class
 ui\Tools.class
 model\Observador.class
 ui\AddCSV$3.class
