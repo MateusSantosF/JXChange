@@ -7,15 +7,8 @@ package ui;
 
 import controller.AddCSVController;
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import model.CSV;
 import model.Observado;
 import model.Observador;
 
@@ -165,7 +158,7 @@ public class AddCSV extends javax.swing.JFrame implements Observado {
     private void jLabel4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MousePressed
        
             notificarObservadores();
-            this.dispose();
+           
         
     }//GEN-LAST:event_jLabel4MousePressed
 
@@ -233,15 +226,15 @@ public class AddCSV extends javax.swing.JFrame implements Observado {
         
         AddCSVController csvc = new AddCSVController();
         
-        sucesso = csvc.salvaCSV(jTextFieldNomeAcao.getText(), jTextFieldPath.getText());
+        sucesso = csvc.salvaCSV(jTextFieldNomeAcao.getText().toUpperCase(), jTextFieldPath.getText());
         
         if(sucesso){
             JOptionPane.showMessageDialog(null, "Ação salva com sucesso.");
-  
             limpaCampos();
+            this.dispose();
         }else{
             JOptionPane.showMessageDialog(null, "Verifique os campos e tente novamente.");
         }
-        observadores.forEach((Observador ob)->{ob.update(sucesso);});
+        observadores.forEach(ob-> {ob.update(sucesso);});
     }
 }

@@ -18,15 +18,17 @@ public class AddCSVController {
     
     public boolean salvaCSV(String nome, String diretorio ){
         
-        if(nome.length() > 0 && diretorio.length() > 0){
+        if(nome.length() > 0 && diretorio.length() > 0 && diretorio.lastIndexOf("csv") != -1){
             
            CSV currentCSV = new CSV();
+           
             try {
                 currentCSV.setDiretorio(diretorio);
                 currentCSV.setNomeAcao(nome);
                 MainMenu.listaCSV.add(currentCSV);                     
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Erro ao ler arquivo."+ e);
+                return false;
             }
        
         }else{
@@ -35,4 +37,6 @@ public class AddCSVController {
         
         return true;
     }
+    
+   
 }

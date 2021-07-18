@@ -1,16 +1,19 @@
 /*
  * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template file, choose Ferramentas | Templates
  * and open the template in the editor.
  */
 package ui;
 
+import java.awt.Color;
+import java.awt.ComponentOrientation;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SingleSelectionModel;
 import model.AplicaLookAndFeel;
 import model.CSV;
+import model.Ferramentas;
 import model.GerenciadorJPanel;
 import model.Observador;
 import org.jfree.chart.ChartFactory;
@@ -23,9 +26,12 @@ import org.jfree.chart.JFreeChart;
  */
 public class MainMenu extends javax.swing.JFrame implements Observador {
 
-    private AddCSV telaAddCSV = null;
-
     public static ArrayList<CSV> listaCSV = new ArrayList<>();
+    private AddCSV telaAddCSV = null;
+    private Tools telaTools = null;
+    
+    private Boolean design = false;
+  
 
     /**
      * Creates new form MainMenu
@@ -158,7 +164,7 @@ public class MainMenu extends javax.swing.JFrame implements Observador {
 
         getContentPane().add(jPanelMenuLateral, java.awt.BorderLayout.LINE_START);
 
-        painelPrincipal.setBackground(new java.awt.Color(170, 175, 208));
+        painelPrincipal.setBackground(new java.awt.Color(29, 28, 33));
         painelPrincipal.setLayout(new java.awt.BorderLayout());
         getContentPane().add(painelPrincipal, java.awt.BorderLayout.CENTER);
 
@@ -183,7 +189,14 @@ public class MainMenu extends javax.swing.JFrame implements Observador {
 
     private void jLabelToolsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelToolsMousePressed
 
-        new GerenciadorJPanel(painelPrincipal, new Tools());
+        if (telaTools == null) {
+            telaTools = new Tools();
+            telaTools.registrarObservador(this);
+            telaTools.setVisible(true);
+        } else {
+            telaTools.setVisible(true);
+        }
+
     }//GEN-LAST:event_jLabelToolsMousePressed
 
     private void jLabelAddcsvMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelAddcsvMousePressed
@@ -202,6 +215,7 @@ public class MainMenu extends javax.swing.JFrame implements Observador {
         painelPrincipal.removeAll();
         painelPrincipal.repaint();
         javax.swing.JTabbedPane pane = new javax.swing.JTabbedPane();
+        pane.setTabPlacement(JTabbedPane.RIGHT);
         painelPrincipal.add(pane);
 
         for (CSV csv : listaCSV) {
@@ -211,20 +225,51 @@ public class MainMenu extends javax.swing.JFrame implements Observador {
                         "Data",
                         "Valor",
                         csv.montaDataSet(csv.montaDataItem(csv.getDiretorio())), true);
-                
-                
+
+                chart.removeLegend();
                 ChartPanel painelGrafico = new ChartPanel(chart);
                 painelGrafico.setName(csv.getNomeAcao());
-                
+
                 pane.add(painelGrafico);
                 pane.setTitleAt(cont++, csv.getNomeAcao());
-                
+
             } catch (Exception e) {
-             
+
                 JOptionPane.showMessageDialog(null, e + "teste");
             }
 
         }
+
+    }
+
+    private void listarGraficosPersonalizados() {
+
+        int cont = 0;
+        painelPrincipal.removeAll();
+        painelPrincipal.repaint();
+        javax.swing.JTabbedPane pane = new javax.swing.JTabbedPane();
+        pane.setTabPlacement(JTabbedPane.RIGHT);
+        pane.setBackground(new Color(29,28,33));
+        painelPrincipal.add(pane);
+
+        for (CSV csv : listaCSV) {
+
+            try {
+                Ferramentas f = new Ferramentas(csv);
+                ChartPanel painelGrafico = new ChartPanel(f.montaOHLCSeriesChart());
+                painelGrafico.setName(csv.getNomeAcao());
+                painelGrafico.setMouseZoomable(true);
+                painelGrafico.setMouseWheelEnabled(true);
+                pane.add(painelGrafico);
+                pane.setTitleAt(cont++, csv.getNomeAcao());
+
+            } catch (Exception e) {
+
+                JOptionPane.showMessageDialog(null, e);
+            }
+
+        }
+
     }
 
     /**
@@ -280,7 +325,34 @@ public class MainMenu extends javax.swing.JFrame implements Observador {
     public void update(Boolean b) {
 
         if (b) {
-            listarGraficos();
+            if(design){
+               listarGraficosPersonalizados();
+            }else{
+                listarGraficos(); 
+            }
+            
+        }
+
+    }
+
+    @Override
+    public void update(Boolean[] b) {
+
+        if (b[2]) {
+            painelPrincipal.removeAll();
+            painelPrincipal.repaint();
+        } else {
+            if (b[0]) {
+                listarGraficosPersonalizados();
+                this.design = b[0];
+            }else{
+                this.design = b[0];
+                listarGraficos();
+            }
+
+            if (b[1]) {
+               //apresentarmedia
+            }
         }
 
     }

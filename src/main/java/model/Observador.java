@@ -15,5 +15,7 @@ public interface Observador {
     
     public void update(Boolean b);
     
+    public void update(Boolean[] b);
+    
     
 }
