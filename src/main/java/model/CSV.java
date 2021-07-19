@@ -141,6 +141,7 @@ public class CSV {
         }
 
         return new OHLCDataItem(data, abertura, maxima, minima, fechamento, volume);
+        
     }
 
    
