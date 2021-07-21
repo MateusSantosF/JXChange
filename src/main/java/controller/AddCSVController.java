@@ -6,6 +6,7 @@
 package controller;
 
 import javax.swing.JOptionPane;
+import model.Acao;
 import model.CSV;
 import ui.MainMenu;
 
@@ -25,9 +26,11 @@ public class AddCSVController {
             try {
                 currentCSV.setDiretorio(diretorio);
                 currentCSV.setNomeAcao(nome);
-                MainMenu.listaCSV.add(currentCSV);                     
+                Acao acao = new Acao(currentCSV);                
+                MainMenu.acoes.add(acao);
+                
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Erro ao ler arquivo."+ e);
+                JOptionPane.showMessageDialog(null, "Erro ao ler arquivo." + e);
                 return false;
             }
        

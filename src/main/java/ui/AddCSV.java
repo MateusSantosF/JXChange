@@ -157,10 +157,7 @@ public class AddCSV extends javax.swing.JFrame implements Observado {
     }//GEN-LAST:event_btnBuscarDiretorioMousePressed
 
     private void jLabel4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MousePressed
-       
-            notificarObservadores();
-           
-        
+          notificarObservadores();      
     }//GEN-LAST:event_jLabel4MousePressed
 
     /**
@@ -232,10 +229,11 @@ public class AddCSV extends javax.swing.JFrame implements Observado {
         if(sucesso){
             JOptionPane.showMessageDialog(null, "Ação salva com sucesso.");
             limpaCampos();
-            this.dispose();
+            dispose();
         }else{
             JOptionPane.showMessageDialog(null, "Verifique os campos e tente novamente.");
         }
+        
         observadores.forEach(ob-> {ob.update(sucesso);});
     }
 }

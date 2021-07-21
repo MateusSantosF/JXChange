@@ -19,23 +19,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.DateAxis;
 import org.jfree.data.xy.DefaultOHLCDataset;
 import org.jfree.data.xy.OHLCDataItem;
-
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.labels.StandardXYToolTipGenerator;
-import org.jfree.chart.plot.CombinedDomainXYPlot;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.CandlestickRenderer;
-import org.jfree.chart.renderer.xy.XYBarRenderer;
-import org.jfree.data.time.FixedMillisecond;
-import org.jfree.data.time.TimeSeries;
-import org.jfree.data.time.TimeSeriesCollection;
-import org.jfree.data.time.ohlc.OHLCSeries;
-import org.jfree.data.time.ohlc.OHLCSeriesCollection;
 
 /**
  *
@@ -46,15 +31,12 @@ public class CSV {
     String diretorio;
     String nomeAcao;
 
-    public CSV() {
-    }
+    public CSV() { };
 
-    ;
     
     public CSV(String diretorio, String nome) {
         this.diretorio = diretorio;
         this.nomeAcao = nome;
-
     }
 
     public String getDiretorio() {
@@ -73,8 +55,7 @@ public class CSV {
         this.nomeAcao = nomeAcao;
     }
 
-    //============================ Gráfico Default ====================================
-    public ArrayList<OHLCDataItem> montaDataItem(String diretorio) {
+    public ArrayList<OHLCDataItem> montaDataItem() {
 
         ArrayList<OHLCDataItem> serie = new ArrayList<>();
         BufferedReader br = null;
@@ -82,7 +63,7 @@ public class CSV {
 
         try {
 
-            br = new BufferedReader(new FileReader(diretorio));
+            br = new BufferedReader(new FileReader(getDiretorio()));
             br.readLine();
             while ((linha = br.readLine()) != null) {  
                 if(validaLinha(linha)){
@@ -103,9 +84,7 @@ public class CSV {
                 }
             }
         }
-
         return serie;
-
     }
     
     private boolean validaLinha(String linha){
@@ -153,11 +132,7 @@ public class CSV {
         return new OHLCDataItem(data, abertura, maxima, minima, fechamento, volume);
         
     }
-
-   
-
-    //=================================== Gráfico personalizado ========================
-   
+ 
     public DefaultOHLCDataset montaDataSet(ArrayList<OHLCDataItem> candles) {
 
         OHLCDataItem[] itens = new OHLCDataItem[candles.size()];

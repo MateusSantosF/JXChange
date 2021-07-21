@@ -6,29 +6,23 @@
 package ui;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.ComponentOrientation;
+import java.awt.Container;
+import java.awt.HeadlessException;
 import java.util.ArrayList;
-import javax.swing.JLabel;
+
 import javax.swing.JOptionPane;
-import javax.swing.JTabbedPane;
-import javax.swing.SingleSelectionModel;
-import javax.swing.SwingConstants;
+import model.Acao;
 import model.AplicaLookAndFeel;
-import model.CSV;
 import model.Ferramentas;
-import model.GerenciadorJPanel;
 import model.Observador;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.DateAxis;
-import org.jfree.chart.axis.DateTickMarkPosition;
-import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.data.time.MovingAverage;
-import org.jfree.data.time.TimeSeriesCollection;
-import org.jfree.data.xy.DefaultOHLCDataset;
 import org.jfree.data.xy.XYDataset;
 
 /**
@@ -37,9 +31,12 @@ import org.jfree.data.xy.XYDataset;
  */
 public class MainMenu extends javax.swing.JFrame implements Observador {
 
-    public static ArrayList<CSV> listaCSV = new ArrayList<>();
+    public static ArrayList<Acao> acoes = new ArrayList<>();
+    
     private AddCSV telaAddCSV = null;
     private Tools telaTools = null;
+    private Settings telaSettings = null;
+    private Help telaHelp = null;
 
     private Boolean design = false;
     private Boolean media = false;
@@ -52,12 +49,6 @@ public class MainMenu extends javax.swing.JFrame implements Observador {
         this.setExtendedState(MAXIMIZED_BOTH);
 
         new AplicaLookAndFeel();
-
-        JLabel label = new JLabel();
-        label.setText("Adicione uma ação antes");
-        label.setHorizontalAlignment(SwingConstants.CENTER);
-        painelPrincipal.add(label);
-
     }
 
     /**
@@ -80,6 +71,7 @@ public class MainMenu extends javax.swing.JFrame implements Observador {
         jLabelAddcsv = new javax.swing.JLabel();
         jLabelLogo = new javax.swing.JLabel();
         painelPrincipal = new javax.swing.JPanel();
+        jTabbedPane = new javax.swing.JTabbedPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("JXCHANGE");
@@ -97,11 +89,6 @@ public class MainMenu extends javax.swing.JFrame implements Observador {
         jLabelDashboard.setText("Dashboard");
         jLabelDashboard.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabelDashboard.setIconTextGap(6);
-        jLabelDashboard.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jLabelDashboardMousePressed(evt);
-            }
-        });
         jPanelBotoes.add(jLabelDashboard);
 
         jLabelTools.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -182,6 +169,10 @@ public class MainMenu extends javax.swing.JFrame implements Observador {
 
         painelPrincipal.setBackground(new java.awt.Color(29, 28, 33));
         painelPrincipal.setLayout(new java.awt.BorderLayout());
+
+        jTabbedPane.setBackground(new java.awt.Color(255, 255, 255));
+        painelPrincipal.add(jTabbedPane, java.awt.BorderLayout.CENTER);
+
         getContentPane().add(painelPrincipal, java.awt.BorderLayout.CENTER);
 
         pack();
@@ -189,18 +180,23 @@ public class MainMenu extends javax.swing.JFrame implements Observador {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabelSettingsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelSettingsMousePressed
-        new GerenciadorJPanel(painelPrincipal, new Settings());
+    
+        if (telaSettings == null) {
+            telaSettings = new Settings();
+            telaSettings.setVisible(true);
+        } else {
+            telaTools.setVisible(true);
+        }
 
     }//GEN-LAST:event_jLabelSettingsMousePressed
 
-    private void jLabelDashboardMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelDashboardMousePressed
-
-        new GerenciadorJPanel(painelPrincipal, new Dashboard());
-        listarGraficos();
-    }//GEN-LAST:event_jLabelDashboardMousePressed
-
     private void jLabelHelpMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelHelpMousePressed
-        new GerenciadorJPanel(painelPrincipal, new Help());
+        if (telaHelp == null) {
+            telaHelp = new Help();
+            telaHelp.setVisible(true);
+        } else {
+            telaHelp.setVisible(true);
+        }
     }//GEN-LAST:event_jLabelHelpMousePressed
 
     private void jLabelToolsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelToolsMousePressed
@@ -225,107 +221,86 @@ public class MainMenu extends javax.swing.JFrame implements Observador {
             telaAddCSV.setVisible(true);
         }
     }//GEN-LAST:event_jLabelAddcsvMousePressed
-    private void listarGraficos() {
-
+   
+    private void apresentaGraficosNormais(){
+         
         int cont = 0;
-        painelPrincipal.removeAll();
-        painelPrincipal.repaint();
-        javax.swing.JTabbedPane pane = new javax.swing.JTabbedPane();
-        pane.setTabPlacement(JTabbedPane.RIGHT);
-        painelPrincipal.add(pane);
-
-        for (CSV csv : listaCSV) {
-
-            try {
-                JFreeChart chart = ChartFactory.createCandlestickChart(csv.getNomeAcao(),
-                        "Data",
-                        "Valor",
-                        csv.montaDataSet(csv.montaDataItem(csv.getDiretorio())), true);
-
+        
+        for(Acao c : acoes){
+           try {
+                JFreeChart chart = ChartFactory.createCandlestickChart(c.getNomeAcao(),"Data","Valor", c.getDataset(), true);
                 chart.removeLegend();
-
-                ChartPanel painelGrafico = new ChartPanel(chart);
+                ChartPanel painelGrafico = new ChartPanel(chart);               
                 painelGrafico.setMouseZoomable(true);
                 painelGrafico.setMouseWheelEnabled(true);
-                painelGrafico.setName(csv.getNomeAcao());
-                pane.add(painelGrafico);
-                pane.setTitleAt(cont++, csv.getNomeAcao());
+                painelGrafico.setName(c.getNomeAcao());
+                painelGrafico.getChart().getPlot().setBackgroundPaint(Color.WHITE);
+                jTabbedPane.add(painelGrafico);
+                jTabbedPane.setTitleAt(cont++, c.getNomeAcao());             
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null, e); 
+            } 
+        }
+            
+        
+    }
+    public void montagraficoNormal(){
+        
+        int cont = 0;
+        Acao c = acoes.get(acoes.size() - 1);   
+            try {
+                JFreeChart chart = ChartFactory.createCandlestickChart(c.getNomeAcao(),"Data","Valor", c.getDataset(), true);
+                chart.removeLegend();
+                ChartPanel painelGrafico = new ChartPanel(chart);               
+                painelGrafico.setMouseZoomable(true);
+                painelGrafico.setMouseWheelEnabled(true);
+                painelGrafico.setName(c.getNomeAcao());        
+                painelGrafico.getChart().getPlot().setBackgroundPaint(Color.WHITE);
+                jTabbedPane.add(painelGrafico);
+                jTabbedPane.setTitleAt(cont++, c.getNomeAcao());             
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null, e); 
+            }
+        
+    }
+    private void listarGraficosPersonalizados() {
 
-                if (this.media) {
-                    
-                    //3 MEDIA MOVEL
-                    XYPlot xyplot = (XYPlot)chart.getPlot();
-                    
-                    XYDataset dataset1 = MovingAverage.createMovingAverage(xyplot.getDataset(), "-MA5", 5, 5);
-                    XYDataset dataset2 = MovingAverage.createMovingAverage(xyplot.getDataset(), "-MA30", 864000 * 30, 86400000 *5);
-                    XYDataset dataset3 = MovingAverage.createMovingAverage(xyplot.getDataset(), "-MA30", 864000 * 60, 8600000 * 30);
-                    
-                    xyplot.setDataset(1, dataset1);
+        int cont = 0;
 
-                    xyplot.setRenderer(1, new StandardXYItemRenderer());
-                                     
-                    
-                   // xyplot.setRangeAxis(2, new NumberAxis("Value 2"));
-                    xyplot.setDataset(2, dataset2);
-               
-                    xyplot.setRenderer(2, new StandardXYItemRenderer());
+        jTabbedPane.removeAll();
 
-                   //xyplot.setRangeAxis(3, new NumberAxis("Value 3"));
-                    xyplot.setDataset(3, dataset3);
-              
-                    xyplot.setRenderer(3, new StandardXYItemRenderer());
+        for (Acao c : acoes) {
+            try {
+                Ferramentas f = new Ferramentas(c);
+                ChartPanel painelGrafico = new ChartPanel(f.montaOHLCSeriesChart());
+                painelGrafico.setName(c.getNomeAcao());
+                painelGrafico.setMouseWheelEnabled(true);
+                painelGrafico.setMouseZoomable(true);
+                jTabbedPane.add(painelGrafico);
+                jTabbedPane.setTitleAt(cont++, c.getNomeAcao());
+ 
+                
+                XYPlot xyplot = (XYPlot) painelGrafico.getChart().getPlot();
+          
+                XYDataset dataset1 = MovingAverage.createMovingAverage(xyplot.getDataset(1), "-MA30", 86400000 * 2,  0L);  
+                xyplot.setDataset(1, dataset1);
+                xyplot.setRenderer(1, new StandardXYItemRenderer());
 
-                }
-
-            } catch (Exception e) {
-
+            } catch (HeadlessException e) {
                 JOptionPane.showMessageDialog(null, e);
             }
 
         }
 
     }
-
+    
+    
     private void apresentaGraficos() {
         if (this.design) {
             listarGraficosPersonalizados();
         } else {
-            listarGraficos();
+            montagraficoNormal();
         }
-    }
-
-    private void listarGraficosPersonalizados() {
-
-        int cont = 0;
-        painelPrincipal.removeAll();
-        painelPrincipal.repaint();
-        javax.swing.JTabbedPane pane = new javax.swing.JTabbedPane();
-        pane.setTabPlacement(JTabbedPane.RIGHT);
-        pane.setBackground(new Color(29, 28, 33));
-        painelPrincipal.add(pane);
-
-        for (CSV csv : listaCSV) {
-
-            try {
-
-                Ferramentas f = new Ferramentas(csv);
-                ChartPanel painelGrafico = new ChartPanel(f.montaOHLCSeriesChart());
-                pane.add(painelGrafico);
-                pane.setTitleAt(cont++, csv.getNomeAcao());
-                painelGrafico.setName(csv.getNomeAcao());
-
-                
-                XYPlot xyplot = (XYPlot) painelGrafico.getChart().getXYPlot();
-                XYDataset dataset2 = MovingAverage.createMovingAverage(xyplot.getDataset() , "-MAVG", 86400000L, 86400000*6 );
-                xyplot.setDataset(1, dataset2);
-                xyplot.setRenderer(1, new StandardXYItemRenderer());
-
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e);
-            }
-
-        }
-
     }
 
     /**
@@ -374,6 +349,7 @@ public class MainMenu extends javax.swing.JFrame implements Observador {
     private javax.swing.JLabel jLabelTools;
     private javax.swing.JPanel jPanelBotoes;
     private javax.swing.JPanel jPanelMenuLateral;
+    private javax.swing.JTabbedPane jTabbedPane;
     private javax.swing.JPanel painelPrincipal;
     // End of variables declaration//GEN-END:variables
 
@@ -381,7 +357,7 @@ public class MainMenu extends javax.swing.JFrame implements Observador {
     public void update(Boolean b) {
 
         if (b){  
-            listarGraficos();   
+           apresentaGraficos();
         }
 
     }
@@ -390,18 +366,41 @@ public class MainMenu extends javax.swing.JFrame implements Observador {
     public void update(Boolean[] b) {
 
         if (b[2]) {
-            painelPrincipal.removeAll();
-            painelPrincipal.repaint();
+            jTabbedPane.removeAll();
+            this.design = b[0];
         } else {
-            if (b[0]) {
-                this.design = b[0];
-            } else {
-                this.design = b[0];
-            }
+            this.design = b[0];
             this.media = b[1];
-            apresentaGraficos();
         }
-
+        
+        if( media == false){
+            if(design){
+               jTabbedPane.removeAll();
+               listarGraficosPersonalizados(); 
+            }else{
+                jTabbedPane.removeAll();
+                apresentaGraficosNormais();
+            }
+            
+        } 
+        
+    }
+    
+     @Override
+    public void update(int periodo) {
+        
+        int cont = 0;
+        int index = jTabbedPane.getSelectedIndex();    
+        
+        for( Acao c: acoes){       
+            if(cont == index && media){
+               ChartPanel painelGrafico = (ChartPanel) jTabbedPane.getComponent(index);         
+               c.calculaMMA(painelGrafico, periodo);
+            }
+            cont++;
+        }
+   
+        
     }
 
 }

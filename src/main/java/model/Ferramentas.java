@@ -15,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.NumberAxis;
@@ -33,29 +34,31 @@ import org.jfree.data.time.ohlc.OHLCSeries;
 import org.jfree.data.time.ohlc.OHLCSeriesCollection;
 import org.jfree.data.xy.XYDataset;
 
+
 /**
  *
  * @author Mateus
  */
 public class Ferramentas {
     
-    CSV csv;
+
+    Acao acao;
     
     public Ferramentas(){};
     
-    public Ferramentas(CSV csv){
-        this.csv = csv;
+    public Ferramentas(Acao acao){
+       this.acao = acao;
     }
 
-    public CSV getCsv() {
-        return csv;
+    public Acao getAcao() {
+        return acao;
     }
 
-    public void setCsv(CSV csv) {
-        this.csv = csv;
+    public void setAcao(Acao acao) {
+        this.acao = acao;
     }
-    
 
+  
     private Double[] criaSeriesCandle(String linha) {
 
         String[] dados = linha.split(",");
@@ -97,11 +100,9 @@ public class Ferramentas {
         String linha = "";
 
         try {
-            br = new BufferedReader(new FileReader(csv.getDiretorio()));
+            br = new BufferedReader(new FileReader(acao.getDiretorio()));
             br.readLine();
-
             while ((linha = br.readLine()) != null) {
-
                 Date data = retornaData(linha);
                 Double[] valores = criaSeriesCandle(linha);
                 FixedMillisecond t = new FixedMillisecond(data);
@@ -150,7 +151,7 @@ public class Ferramentas {
 
         try {
 
-            br = new BufferedReader(new FileReader(csv.getDiretorio()));
+            br = new BufferedReader(new FileReader(acao.getDiretorio()));
             br.readLine();
             while ((linha = br.readLine()) != null) {
 
@@ -175,10 +176,7 @@ public class Ferramentas {
         }
         return volume;
     }
-    
-   
-    
-    
+        
     public JFreeChart montaOHLCSeriesChart() {
 
         OHLCSeriesCollection candCollection = new OHLCSeriesCollection();
@@ -187,14 +185,12 @@ public class Ferramentas {
 
         NumberAxis eixoX = new NumberAxis("Valor");
         eixoX.setAutoRange(true); // da zoom na região que mais possui candles
-
+        eixoX.setAutoRangeIncludesZero(false);
         //Modifica a largura do Candle
         CandlestickRenderer candlestickRenderer = new CandlestickRenderer(CandlestickRenderer.WIDTHMETHOD_AVERAGE);
-        XYPlot candlestickSubplot = new XYPlot();
-        candlestickSubplot.setDataset(0, candCollection);
-        candlestickSubplot.setDomainAxis(eixoX);
-        candlestickSubplot.setRenderer(candlestickRenderer);
-        candlestickSubplot.setBackgroundPaint(new Color(86, 85, 89));
+        
+        XYPlot candlestickSubplot = new XYPlot(candCollection, null, eixoX, candlestickRenderer);
+        candlestickSubplot.setBackgroundPaint(Color.WHITE);
 
         //Adiciona volume
         TimeSeriesCollection volumeDataset = new TimeSeriesCollection();
@@ -211,23 +207,25 @@ public class Ferramentas {
         XYPlot volumeSubplot = new XYPlot(volumeDataset, null, volumeAxis, timeRenderer);
         volumeSubplot.setBackgroundPaint(Color.white);
 
+        
+        //FINALIZANDO
         DateAxis dateAxis = new DateAxis("Tempo");
         dateAxis.setDateFormatOverride(new SimpleDateFormat("kk:mm"));
-        dateAxis.setLowerMargin(0.5);
-        dateAxis.setUpperMargin(0.5);
+        dateAxis.setLowerMargin(0.05);
+        dateAxis.setUpperMargin(0.05);
            
         CombinedDomainXYPlot mainPlot = new CombinedDomainXYPlot(dateAxis);
       
+        mainPlot.setDataset(1, candCollection);
         mainPlot.setGap(10.0);
         mainPlot.add(candlestickSubplot, 3); // o valor é referente ao tamanho total ocupado na tela 
         mainPlot.add(volumeSubplot, 1);
-        mainPlot.setOrientation(PlotOrientation.VERTICAL);
-     
+        mainPlot.setOrientation(PlotOrientation.VERTICAL);    
         
-        JFreeChart chart = new JFreeChart(csv.getNomeAcao(), JFreeChart.DEFAULT_TITLE_FONT, mainPlot, true);
+        JFreeChart chart = new JFreeChart(acao.getNomeAcao(), JFreeChart.DEFAULT_TITLE_FONT, mainPlot, true);
         chart.removeLegend();
-
 
         return chart;
     }
+
 }

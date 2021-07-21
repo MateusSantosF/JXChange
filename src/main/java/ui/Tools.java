@@ -6,6 +6,7 @@
 package ui;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import model.Observado;
 import model.Observador;
 
@@ -15,8 +16,8 @@ import model.Observador;
  */
 public class Tools extends javax.swing.JFrame implements Observado {
 
-    
     ArrayList<Observador> observadores = new ArrayList<>();
+
     /**
      * Creates new form Tools
      */
@@ -40,6 +41,7 @@ public class Tools extends javax.swing.JFrame implements Observado {
         jSeparator1 = new javax.swing.JSeparator();
         jLabel4 = new javax.swing.JLabel();
         jCheckBoxDesign = new javax.swing.JCheckBox();
+        jTextFieldPeriodo = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(29, 28, 33));
@@ -50,7 +52,17 @@ public class Tools extends javax.swing.JFrame implements Observado {
         jCheckBoxMedia.setBackground(new java.awt.Color(29, 28, 33));
         jCheckBoxMedia.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jCheckBoxMedia.setForeground(new java.awt.Color(255, 255, 255));
-        jCheckBoxMedia.setText("Apresentar média Móvel");
+        jCheckBoxMedia.setText("Cálcular MMA");
+        jCheckBoxMedia.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jCheckBoxMediaStateChanged(evt);
+            }
+        });
+        jCheckBoxMedia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxMediaActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -80,6 +92,10 @@ public class Tools extends javax.swing.JFrame implements Observado {
         jCheckBoxDesign.setForeground(new java.awt.Color(255, 255, 255));
         jCheckBoxDesign.setText("Mudar Desgin dos gráficos");
 
+        jTextFieldPeriodo.setBackground(new java.awt.Color(255, 255, 255));
+        jTextFieldPeriodo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
+        jTextFieldPeriodo.setEnabled(false);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -91,10 +107,12 @@ public class Tools extends javax.swing.JFrame implements Observado {
                 .addGap(114, 114, 114))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBoxDesign)
-                    .addComponent(jCheckBoxLimparTudo)
-                    .addComponent(jCheckBoxMedia))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTextFieldPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jCheckBoxDesign)
+                        .addComponent(jCheckBoxLimparTudo)
+                        .addComponent(jCheckBoxMedia)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
@@ -107,13 +125,15 @@ public class Tools extends javax.swing.JFrame implements Observado {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(jLabel1)
-                .addGap(39, 39, 39)
-                .addComponent(jCheckBoxDesign)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(37, 37, 37)
                 .addComponent(jCheckBoxMedia)
-                .addGap(79, 79, 79)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTextFieldPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56)
+                .addComponent(jCheckBoxDesign)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jCheckBoxLimparTudo)
-                .addGap(47, 47, 47)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(51, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -141,9 +161,20 @@ public class Tools extends javax.swing.JFrame implements Observado {
     private void jLabel4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MousePressed
 
         notificarObservadores();
+        jCheckBoxMedia.setSelected(false);
+        jCheckBoxLimparTudo.setSelected(false);
         this.dispose();
 
     }//GEN-LAST:event_jLabel4MousePressed
+
+    private void jCheckBoxMediaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMediaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBoxMediaActionPerformed
+
+    private void jCheckBoxMediaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCheckBoxMediaStateChanged
+
+        jTextFieldPeriodo.setEnabled(jCheckBoxMedia.isSelected());
+    }//GEN-LAST:event_jCheckBoxMediaStateChanged
 
     /**
      * @param args the command line arguments
@@ -188,27 +219,42 @@ public class Tools extends javax.swing.JFrame implements Observado {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JFormattedTextField jTextFieldPeriodo;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public void registrarObservador(Observador observador) {
-       observadores.add(observador);
+        observadores.add(observador);
     }
 
     @Override
     public void removeObservador(Observador observador) {
-          observadores.remove(observador);
+        observadores.remove(observador);
     }
 
     @Override
     public void notificarObservadores() {
-        
+
         Boolean[] opcoes = new Boolean[3];
-        
+
         opcoes[0] = jCheckBoxDesign.isSelected();
         opcoes[1] = jCheckBoxMedia.isSelected();
         opcoes[2] = jCheckBoxLimparTudo.isSelected();
         
-        observadores.forEach(ob -> ob.update(opcoes));
+        observadores.forEach(ob-> ob.update(opcoes));
+
+        if (jCheckBoxMedia.isSelected()) {
+            for (Observador ob : observadores) {
+                ob.update(opcoes);
+
+                try {
+                    ob.update(Integer.parseInt(jTextFieldPeriodo.getText()));
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, e);
+                }
+
+            }
+        }
+
     }
 }
