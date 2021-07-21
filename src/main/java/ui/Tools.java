@@ -33,23 +33,13 @@ public class Tools extends javax.swing.JFrame implements Observado {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jCheckBoxDesign = new javax.swing.JCheckBox();
         jPanel1 = new javax.swing.JPanel();
         jCheckBoxMedia = new javax.swing.JCheckBox();
         jLabel1 = new javax.swing.JLabel();
         jCheckBoxLimparTudo = new javax.swing.JCheckBox();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel4 = new javax.swing.JLabel();
-
-        jCheckBoxDesign.setBackground(new java.awt.Color(29, 28, 33));
-        jCheckBoxDesign.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jCheckBoxDesign.setForeground(new java.awt.Color(255, 255, 255));
-        jCheckBoxDesign.setText("Mudar Design dos Gráficos");
-        jCheckBoxDesign.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxDesignActionPerformed(evt);
-            }
-        });
+        jCheckBoxDesign = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(29, 28, 33));
@@ -85,21 +75,27 @@ public class Tools extends javax.swing.JFrame implements Observado {
             }
         });
 
+        jCheckBoxDesign.setBackground(new java.awt.Color(29, 28, 33));
+        jCheckBoxDesign.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jCheckBoxDesign.setForeground(new java.awt.Color(255, 255, 255));
+        jCheckBoxDesign.setText("Mudar Desgin dos gráficos");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBoxLimparTudo)
-                    .addComponent(jCheckBoxMedia))
-                .addContainerGap(220, Short.MAX_VALUE))
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 485, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 490, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(114, 114, 114))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckBoxDesign)
+                    .addComponent(jCheckBoxLimparTudo)
+                    .addComponent(jCheckBoxMedia))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addContainerGap()
@@ -111,7 +107,9 @@ public class Tools extends javax.swing.JFrame implements Observado {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(jLabel1)
-                .addGap(71, 71, 71)
+                .addGap(39, 39, 39)
+                .addComponent(jCheckBoxDesign)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBoxMedia)
                 .addGap(79, 79, 79)
                 .addComponent(jCheckBoxLimparTudo)
@@ -139,10 +137,6 @@ public class Tools extends javax.swing.JFrame implements Observado {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jCheckBoxDesignActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxDesignActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBoxDesignActionPerformed
 
     private void jLabel4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MousePressed
 

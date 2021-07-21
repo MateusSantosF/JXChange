@@ -84,8 +84,10 @@ public class CSV {
 
             br = new BufferedReader(new FileReader(diretorio));
             br.readLine();
-            while ((linha = br.readLine()) != null) {
-                serie.add(criaCandle(linha));
+            while ((linha = br.readLine()) != null) {  
+                if(validaLinha(linha)){
+                   serie.add(criaCandle(linha));
+                }      
             }
 
         } catch (FileNotFoundException e) {
@@ -105,7 +107,15 @@ public class CSV {
         return serie;
 
     }
-
+    
+    private boolean validaLinha(String linha){
+        if(linha.contains("null")){
+            return false;
+        }else{
+            return true;
+        }      
+    }
+    
     private OHLCDataItem criaCandle(String linha) {
 
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
@@ -153,11 +163,11 @@ public class CSV {
         OHLCDataItem[] itens = new OHLCDataItem[candles.size()];
 
         for (int i = 0; i < itens.length; i++) {
-            itens[i] = candles.get(i);
+            itens[i] = candles.get(i);          
         }
+        
         return new DefaultOHLCDataset(itens[0], itens);
     }
-
-    
-
+     
 }
+

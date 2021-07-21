@@ -21,6 +21,15 @@ import model.Observador;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.DateAxis;
+import org.jfree.chart.axis.DateTickMarkPosition;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
+import org.jfree.data.time.MovingAverage;
+import org.jfree.data.time.TimeSeriesCollection;
+import org.jfree.data.xy.DefaultOHLCDataset;
+import org.jfree.data.xy.XYDataset;
 
 /**
  *
@@ -31,9 +40,9 @@ public class MainMenu extends javax.swing.JFrame implements Observador {
     public static ArrayList<CSV> listaCSV = new ArrayList<>();
     private AddCSV telaAddCSV = null;
     private Tools telaTools = null;
-    
+
     private Boolean design = false;
-  
+    private Boolean media = false;
 
     /**
      * Creates new form MainMenu
@@ -43,12 +52,11 @@ public class MainMenu extends javax.swing.JFrame implements Observador {
         this.setExtendedState(MAXIMIZED_BOTH);
 
         new AplicaLookAndFeel();
-        
+
         JLabel label = new JLabel();
         label.setText("Adicione uma ação antes");
         label.setHorizontalAlignment(SwingConstants.CENTER);
         painelPrincipal.add(label);
-        
 
     }
 
@@ -235,11 +243,26 @@ public class MainMenu extends javax.swing.JFrame implements Observador {
                         csv.montaDataSet(csv.montaDataItem(csv.getDiretorio())), true);
 
                 chart.removeLegend();
-                ChartPanel painelGrafico = new ChartPanel(chart);
-                painelGrafico.setName(csv.getNomeAcao());
 
+                ChartPanel painelGrafico = new ChartPanel(chart);
+                painelGrafico.setMouseZoomable(true);
+                painelGrafico.setMouseWheelEnabled(true);
+                painelGrafico.setName(csv.getNomeAcao());
                 pane.add(painelGrafico);
                 pane.setTitleAt(cont++, csv.getNomeAcao());
+
+                if (this.media) {
+                    Ferramentas f = new Ferramentas(csv);
+      
+                    XYPlot xyplot = (XYPlot) painelGrafico.getChart().getXYPlot();
+                    XYDataset dataset2 = MovingAverage.createMovingAverage(xyplot.getDataset(), "-MAVG", 5L * 24L * 60L * 60L * 1000L, 86400000*6);
+                    //XYDataset dataset3 = MovingAverage.createMovingAverage(xyplot.getDataset(), "-MAVG", 5L * 24L * 60L * 60L * 1000L, 86400000*12);
+
+                    xyplot.setDataset(1, dataset2);
+                    //xyplot.setDataset(2, dataset3);
+                    xyplot.setRenderer(1, new StandardXYItemRenderer());
+
+                }
 
             } catch (Exception e) {
 
@@ -250,6 +273,14 @@ public class MainMenu extends javax.swing.JFrame implements Observador {
 
     }
 
+    private void apresentaGraficos() {
+        if (this.design) {
+            listarGraficosPersonalizados();
+        } else {
+            listarGraficos();
+        }
+    }
+
     private void listarGraficosPersonalizados() {
 
         int cont = 0;
@@ -257,22 +288,26 @@ public class MainMenu extends javax.swing.JFrame implements Observador {
         painelPrincipal.repaint();
         javax.swing.JTabbedPane pane = new javax.swing.JTabbedPane();
         pane.setTabPlacement(JTabbedPane.RIGHT);
-        pane.setBackground(new Color(29,28,33));
+        pane.setBackground(new Color(29, 28, 33));
         painelPrincipal.add(pane);
 
         for (CSV csv : listaCSV) {
 
             try {
+
                 Ferramentas f = new Ferramentas(csv);
                 ChartPanel painelGrafico = new ChartPanel(f.montaOHLCSeriesChart());
-                painelGrafico.setName(csv.getNomeAcao());
-                painelGrafico.setMouseZoomable(true);
-                painelGrafico.setMouseWheelEnabled(true);
                 pane.add(painelGrafico);
                 pane.setTitleAt(cont++, csv.getNomeAcao());
+                painelGrafico.setName(csv.getNomeAcao());
+
+                
+                XYPlot xyplot = (XYPlot) painelGrafico.getChart().getXYPlot();
+                XYDataset dataset2 = MovingAverage.createMovingAverage(xyplot.getDataset() , "-MAVG", 86400000L, 86400000*6 );
+                xyplot.setDataset(1, dataset2);
+                xyplot.setRenderer(1, new StandardXYItemRenderer());
 
             } catch (Exception e) {
-
                 JOptionPane.showMessageDialog(null, e);
             }
 
@@ -332,13 +367,8 @@ public class MainMenu extends javax.swing.JFrame implements Observador {
     @Override
     public void update(Boolean b) {
 
-        if (b) {
-            if(design){
-               listarGraficosPersonalizados();
-            }else{
-                listarGraficos(); 
-            }
-            
+        if (b){  
+            listarGraficos();   
         }
 
     }
@@ -351,16 +381,12 @@ public class MainMenu extends javax.swing.JFrame implements Observador {
             painelPrincipal.repaint();
         } else {
             if (b[0]) {
-                listarGraficosPersonalizados();
                 this.design = b[0];
-            }else{
+            } else {
                 this.design = b[0];
-                listarGraficos();
             }
-
-            if (b[1]) {
-               //apresentarmedia
-            }
+            this.media = b[1];
+            apresentaGraficos();
         }
 
     }

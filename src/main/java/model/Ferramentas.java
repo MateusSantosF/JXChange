@@ -23,12 +23,15 @@ import org.jfree.chart.plot.CombinedDomainXYPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.CandlestickRenderer;
+import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.data.time.FixedMillisecond;
+import org.jfree.data.time.MovingAverage;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.time.ohlc.OHLCSeries;
 import org.jfree.data.time.ohlc.OHLCSeriesCollection;
+import org.jfree.data.xy.XYDataset;
 
 /**
  *
@@ -139,7 +142,7 @@ public class Ferramentas {
 
     }
 
-    private TimeSeries retornaVolume() {
+    public TimeSeries retornaVolume() {
 
         TimeSeries volume = new TimeSeries("Volume");
         BufferedReader br = null;
@@ -173,6 +176,8 @@ public class Ferramentas {
         return volume;
     }
     
+   
+    
     
     public JFreeChart montaOHLCSeriesChart() {
 
@@ -185,7 +190,10 @@ public class Ferramentas {
 
         //Modifica a largura do Candle
         CandlestickRenderer candlestickRenderer = new CandlestickRenderer(CandlestickRenderer.WIDTHMETHOD_AVERAGE);
-        XYPlot candlestickSubplot = new XYPlot(candCollection, null, eixoX, candlestickRenderer);
+        XYPlot candlestickSubplot = new XYPlot();
+        candlestickSubplot.setDataset(0, candCollection);
+        candlestickSubplot.setDomainAxis(eixoX);
+        candlestickSubplot.setRenderer(candlestickRenderer);
         candlestickSubplot.setBackgroundPaint(new Color(86, 85, 89));
 
         //Adiciona volume
@@ -207,15 +215,18 @@ public class Ferramentas {
         dateAxis.setDateFormatOverride(new SimpleDateFormat("kk:mm"));
         dateAxis.setLowerMargin(0.5);
         dateAxis.setUpperMargin(0.5);
-
+           
         CombinedDomainXYPlot mainPlot = new CombinedDomainXYPlot(dateAxis);
+      
         mainPlot.setGap(10.0);
         mainPlot.add(candlestickSubplot, 3); // o valor é referente ao tamanho total ocupado na tela 
         mainPlot.add(volumeSubplot, 1);
         mainPlot.setOrientation(PlotOrientation.VERTICAL);
-
+     
+        
         JFreeChart chart = new JFreeChart(csv.getNomeAcao(), JFreeChart.DEFAULT_TITLE_FONT, mainPlot, true);
         chart.removeLegend();
+
 
         return chart;
     }

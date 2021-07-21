@@ -125,7 +125,7 @@ public class AddCSV extends javax.swing.JFrame implements Observado {
                     .addComponent(btnBuscarDiretorio))
                 .addGap(35, 35, 35)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -145,6 +145,7 @@ public class AddCSV extends javax.swing.JFrame implements Observado {
 
     private void btnBuscarDiretorioMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarDiretorioMousePressed
        
+        
         int returnVal = fileChooser.showOpenDialog(this);
         
         if(returnVal == fileChooser.APPROVE_OPTION){
