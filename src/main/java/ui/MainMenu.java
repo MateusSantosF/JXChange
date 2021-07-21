@@ -252,21 +252,34 @@ public class MainMenu extends javax.swing.JFrame implements Observador {
                 pane.setTitleAt(cont++, csv.getNomeAcao());
 
                 if (this.media) {
-                    Ferramentas f = new Ferramentas(csv);
-      
-                    XYPlot xyplot = (XYPlot) painelGrafico.getChart().getXYPlot();
-                    XYDataset dataset2 = MovingAverage.createMovingAverage(xyplot.getDataset(), "-MAVG", 5L * 24L * 60L * 60L * 1000L, 86400000*6);
-                    //XYDataset dataset3 = MovingAverage.createMovingAverage(xyplot.getDataset(), "-MAVG", 5L * 24L * 60L * 60L * 1000L, 86400000*12);
+                    
+                    //3 MEDIA MOVEL
+                    XYPlot xyplot = (XYPlot)chart.getPlot();
+                    
+                    XYDataset dataset1 = MovingAverage.createMovingAverage(xyplot.getDataset(), "-MA5", 5, 5);
+                    XYDataset dataset2 = MovingAverage.createMovingAverage(xyplot.getDataset(), "-MA30", 864000 * 30, 86400000 *5);
+                    XYDataset dataset3 = MovingAverage.createMovingAverage(xyplot.getDataset(), "-MA30", 864000 * 60, 8600000 * 30);
+                    
+                    xyplot.setDataset(1, dataset1);
 
-                    xyplot.setDataset(1, dataset2);
-                    //xyplot.setDataset(2, dataset3);
                     xyplot.setRenderer(1, new StandardXYItemRenderer());
+                                     
+                    
+                   // xyplot.setRangeAxis(2, new NumberAxis("Value 2"));
+                    xyplot.setDataset(2, dataset2);
+               
+                    xyplot.setRenderer(2, new StandardXYItemRenderer());
+
+                   //xyplot.setRangeAxis(3, new NumberAxis("Value 3"));
+                    xyplot.setDataset(3, dataset3);
+              
+                    xyplot.setRenderer(3, new StandardXYItemRenderer());
 
                 }
 
             } catch (Exception e) {
 
-                JOptionPane.showMessageDialog(null, e + "teste");
+                JOptionPane.showMessageDialog(null, e);
             }
 
         }
