@@ -282,7 +282,7 @@ public class MainMenu extends javax.swing.JFrame implements Observador {
                 
                 XYPlot xyplot = (XYPlot) painelGrafico.getChart().getPlot();
           
-                XYDataset dataset1 = MovingAverage.createMovingAverage(xyplot.getDataset(1), "-MA30", 86400000 * 2,  0L);  
+                XYDataset dataset1 = MovingAverage.createMovingAverage(xyplot.getDataset(1), "-MA30", 1000L * 60L *60L * 24L ,  0L);  
                 xyplot.setDataset(1, dataset1);
                 xyplot.setRenderer(1, new StandardXYItemRenderer());
 
