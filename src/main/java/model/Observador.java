@@ -19,6 +19,7 @@ public interface Observador {
     public void update(Boolean[] b);
     
     public void update(int periodo);
-    
+     
+    public void update(String diretorio);
     
 }

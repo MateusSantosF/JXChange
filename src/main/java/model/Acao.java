@@ -50,7 +50,7 @@ public class Acao extends CSV {
         int contDataset = xyplot.getDatasetCount();
         
         try {
-            XYDataset dataset1 = MovingAverage.createMovingAverage(xyplot.getDataset(), "-MA30", periodo * 24 * 60 * 60 * 1000L, 0L);            
+            XYDataset dataset1 = MovingAverage.createMovingAverage(xyplot.getDataset(), "-MA30", periodo * 24L * 60L * 60L * 1000L, 0L);            
             xyplot.setDataset(contDataset, dataset1);
             xyplot.setRenderer(contDataset, new StandardXYItemRenderer());
         } catch (Exception e) {

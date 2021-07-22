@@ -1,19 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package model;
 
-import java.awt.Color;
 import java.io.BufferedReader;
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -62,7 +53,6 @@ public class CSV {
         String linha = "";
 
         try {
-
             br = new BufferedReader(new FileReader(getDiretorio()));
             br.readLine();
             while ((linha = br.readLine()) != null) {  
@@ -92,7 +82,7 @@ public class CSV {
             return false;
         }else{
             return true;
-        }      
+        }   
     }
     
     private OHLCDataItem criaCandle(String linha) {
@@ -128,7 +118,6 @@ public class CSV {
         if (!dados[5].equals("null")) {
             volume = Double.parseDouble(dados[5]);
         }
-
         return new OHLCDataItem(data, abertura, maxima, minima, fechamento, volume);
         
     }
